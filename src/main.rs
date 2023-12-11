@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 use clap::{Parser, Subcommand};
+use flate2::read::GzDecoder;
+use std::io::BufRead;
 
 mod ncbi_data_assembly_report_serde;
 use ncbi_data_assembly_report_serde::*;
@@ -16,6 +18,7 @@ struct Cli {
 enum Commands {
     #[command(about = "Convert NCBI data assembly report JSONL file to Cactus config")]
     NcbiToCactus { file: String, data_path: String },
+    DTOLToCactus { path: String },
 }
 
 fn main() {
@@ -23,8 +26,38 @@ fn main() {
     match &cli.command {
         Commands::NcbiToCactus { file, data_path } => {
             ncbi_data_assembly_report_to_cactus(file.to_string(), data_path.to_string());
-        }
+        },
+        Commands::DTOLToCactus { path } => {
+            dtol_to_cactus(path.to_string());
+        },
     }
+}
+
+fn dtol_to_cactus(path: String) {
+    // Get list of all files at the path
+    let files = std::fs::read_dir(path).unwrap();
+    for file in files {
+        let file = file.unwrap();
+        let path = file.path();
+        let path = path.to_str().unwrap();
+
+        println!("Opening file: {}", path);
+
+        // Open the file and read the first line only
+        let fh = std::fs::File::open(path).unwrap();
+        let reader = GzDecoder::new(fh);
+        let reader = std::io::BufReader::new(reader);
+        let line = reader.lines().next().unwrap().unwrap();
+        println!("Line: {}", line);
+
+        // TODO: Parse the first line of the JSON File
+        // Check if the species exists in an NCBI Dataset file (optional)
+        // Also check the GCA_ name if it exists in the JSON file
+        // If it does, ignore it, we don't wanna double up on the genomes
+        
+    }
+
+
 }
 
 fn ncbi_data_assembly_report_to_cactus(file: String, data_path: String) {
