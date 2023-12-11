@@ -2,6 +2,7 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[serde(default)] 
 pub struct Root {
     pub accession: String,
     pub assembly_info: AssemblyInfo,
@@ -14,8 +15,11 @@ pub struct Root {
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[serde(default)] 
 pub struct AssemblyInfo {
     pub assembly_level: String,
+    
+    #[serde(default)]
     pub assembly_method: String,
     pub assembly_name: String,
     pub assembly_status: String,
@@ -29,18 +33,22 @@ pub struct AssemblyInfo {
     pub linked_assemblies: Vec<LinkedAssembly>,
     pub refseq_category: String,
     pub release_date: String,
+    
+    #[serde(default)]
     pub sequencing_tech: String,
     pub submitter: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[serde(default)] 
 pub struct BioprojectLineage {
     pub bioprojects: Vec<Bioproject>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[serde(default)] 
 pub struct Bioproject {
     pub accession: String,
     #[serde(default)]
@@ -50,6 +58,7 @@ pub struct Bioproject {
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[serde(default)] 
 pub struct Biosample {
     pub accession: String,
     pub attributes: Vec<Attribute>,
@@ -92,6 +101,7 @@ pub struct Owner {
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(default)] 
 #[serde(rename_all = "camelCase")]
 pub struct SampleId {
     pub db: String,
@@ -114,6 +124,7 @@ pub struct LinkedAssembly {
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[serde(default)] 
 pub struct AssemblyStats {
     pub contig_l50: i64,
     pub contig_n50: i64,
@@ -133,6 +144,7 @@ pub struct AssemblyStats {
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[serde(default)] 
 pub struct OrganelleInfo {
     pub description: String,
     pub submitter: String,
