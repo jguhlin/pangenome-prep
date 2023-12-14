@@ -90,6 +90,7 @@ fn ncbi_assembly_compare(file: &str, data_path: &str) {
 
     println!("Comparing {} sketches - {} Total Pairwise Comparisons", sketches.len(), sketches.len() * (sketches.len() - 1));
 
+    // TODO: contamination matrix is invalid name
     // Writer for comparison matrix - Output file called "contamination_matrix.tsv"
     let writer = std::fs::File::create("contamination_matrix.tsv").unwrap();
     let mut writer = std::io::BufWriter::new(writer);
